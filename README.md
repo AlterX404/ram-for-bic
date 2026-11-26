@@ -6,7 +6,7 @@ Commonroom is a guest-friendly student space with shared campus and class chats,
 
 Open the top-level index.html in your browser. The campaign page and Commonroom preview use relative links, so they also work when GitHub Pages serves the root of main under a repository URL.
 
-The static Commonroom preview includes sample campus and class chats, issues and Help. It saves your preview posts in your browser. For shared posts across browsers, use the server-backed app below.
+The static Commonroom preview uses the same interface with sample campus and class chats, issues and Help. It saves your preview posts in your browser. Run npm run build:preview after editing the Commonroom interface or preview data. For shared posts across browsers, use the server-backed app below.
 
 ## Run locally
 

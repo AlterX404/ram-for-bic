@@ -18,16 +18,22 @@ let toastTimer;
 let dialogVersion = 0;
 const boards = new Map();
 
+const localPreview = document.documentElement.hasAttribute('data-local-preview');
+let temporaryPreview = false;
 const deviceTheme = matchMedia('(prefers-color-scheme: dark)');
 const embedded = new URLSearchParams(location.search).has('embedded');
 function updateTheme() {
-  let theme = deviceTheme.matches ? 'dark' : 'light';
+  let theme = localPreview || deviceTheme.matches ? 'dark' : 'light';
+  if (localPreview) {
+    try { theme = localStorage.getItem('ram-for-bic-theme') || theme; }
+    catch { /* The preview can still open without browser storage. */ }
+  }
   if (embedded) {
     try { theme = window.parent.document.documentElement.dataset.theme || theme; }
     catch { /* Device theme remains available outside the campaign origin. */ }
   }
   document.documentElement.dataset.theme = theme;
-  $('meta[name="theme-color"]').content = theme === 'dark' ? '#111924' : '#faf2f6';
+  $('meta[name="theme-color"]').content = getComputedStyle(document.documentElement).getPropertyValue('--background').trim();
 }
 if (embedded) {
   try {
@@ -54,7 +60,8 @@ function connected(online, label) {
   const bar = $('#connection');
   bar.dataset.state = online ? 'online' : 'offline';
   const heading = $('#connection-label');
-  if (heading.textContent !== label) heading.textContent = label;
+  const connectionLabel = localPreview && online ? (temporaryPreview ? 'Temporary demo' : 'Local demo') : label;
+  if (heading.textContent !== connectionLabel) heading.textContent = connectionLabel;
   $('[data-action="retry-connection"]', bar).hidden = online;
 }
 
@@ -126,6 +133,7 @@ function renderNavigation() {
         button.append(icon, el('span', 'channel-name', name));
         if (channel.unread) button.append(el('span', 'count', channel.unread));
         if (channel.id === selected?.id) button.setAttribute('aria-current', 'true');
+        button.title = name;
         button.setAttribute('aria-label', name + (channel.unread ? ', ' + channel.unread + ' unread' : ''));
         section.append(button);
       }
@@ -332,7 +340,7 @@ async function startGuest() {
   status($('#startup-status'), 'Opening the student space…');
   try {
     const createSession = () => request('/auth/guest', 'POST', {});
-    const { user, spaces } = await (navigator.locks
+    const { user, spaces } = await (!localPreview && navigator.locks
       ? navigator.locks.request('commonroom-guest', createSession) : createSession());
     const servers = await readSpaces(spaces);
     state.user = user;
@@ -644,8 +652,20 @@ document.addEventListener('click', (event) => {
   });
 });
 
+if (localPreview) {
+  document.addEventListener('commonroom-preview-temporary', () => {
+    if (temporaryPreview) return;
+    temporaryPreview = true;
+    connected(true, 'Connected');
+    notice('Browser storage is unavailable. Posts will last until you close or reload this tab.');
+  });
+  window.addEventListener('storage', (event) => {
+    if (event.key === 'ram-for-bic-theme') updateTheme();
+  });
+}
+
 await startGuest();
 setInterval(() => { if (!document.hidden) sync(); }, 3000);
 window.addEventListener('online', () => state.user ? sync() : startGuest());
-window.addEventListener('offline', () => { if (state.user) connected(false, 'Offline'); });
+window.addEventListener('offline', () => { if (state.user && !localPreview) connected(false, 'Offline'); });
 document.addEventListener('visibilitychange', () => { if (!document.hidden) sync(); });
