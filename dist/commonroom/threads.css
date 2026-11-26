@@ -1,0 +1,204 @@
+.thread-view {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.thread-view .thread-bar, .thread-view .thread-filters, .thread-view .thread-reply-form {
+  flex: none;
+  background: var(--surface);
+  background: color-mix(in srgb, var(--surface) 79%, transparent);
+  backdrop-filter: blur(20px) saturate(160%);
+}
+
+.thread-view .thread-bar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: .55rem .9rem;
+  padding: .7rem clamp(.8rem, 2.2vw, 1.55rem);
+  border-bottom: 1px solid var(--line);
+}
+
+.thread-view .thread-bar__heading { flex: 1 1 12rem; min-width: 0; }
+.thread-view .thread-title {
+  font-size: clamp(1.12rem, 2.4vw, 1.55rem);
+  line-height: 1.22;
+  letter-spacing: -.025em;
+  overflow-wrap: anywhere;
+}
+
+.thread-view .thread-subtitle { margin-top: .16rem; color: var(--muted); font-size: .83rem; }
+.thread-view .thread-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .25rem;
+  padding: .35rem clamp(.8rem, 2.2vw, 1.55rem);
+  border-bottom: 1px solid var(--line);
+}
+
+.thread-view :is(.thread-primary, .thread-filter, .thread-stance, .thread-link) {
+  min-height: 2.75rem;
+  padding: .5rem .8rem;
+  border: 1px solid transparent;
+  border-radius: .8rem;
+  font-size: .86rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.thread-view .thread-primary {
+  background: var(--button);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--button) 80%, white), var(--button));
+  color: #fff;
+  border-color: color-mix(in srgb, var(--button) 82%, black);
+  box-shadow: inset 0 1px 0 #ffffff35, 0 2px 6px #2814491c;
+}
+
+.thread-view .thread-primary:hover { filter: brightness(1.08); }
+.thread-view :is(.thread-filter, .thread-link) { background: transparent; color: var(--text); }
+.thread-view .thread-link { color: var(--accent); }
+.thread-view :is(.thread-stance, .thread-filter)[aria-pressed=true] {
+  background: color-mix(in srgb, var(--accent) 17%, var(--surface));
+  border-color: color-mix(in srgb, var(--accent) 27%, var(--line));
+}
+
+.thread-view :is(.thread-filter, .thread-link):hover {
+  background: color-mix(in srgb, var(--accent) 11%, var(--surface));
+}
+
+.thread-view .thread-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: clamp(.7rem, 1.6vw, 1.25rem) clamp(.8rem, 2.2vw, 1.55rem) 1.2rem;
+  overscroll-behavior: contain;
+}
+
+.thread-view :is(.thread-list, .thread-replies) {
+  display: grid;
+  gap: .55rem;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.thread-view .thread-card {
+  display: grid;
+  gap: .26rem;
+  width: 100%;
+  min-width: 0;
+  padding: .65rem .8rem;
+  border: 1px solid var(--line);
+  border-radius: .9rem;
+  background: var(--surface);
+  background: linear-gradient(145deg, color-mix(in srgb, var(--surface) 89%, var(--accent)), var(--surface) 65%);
+  color: var(--text);
+  text-align: left;
+  box-shadow: inset 0 1px 0 #ffffff36, 0 3px 10px #2727400a;
+}
+
+.thread-view .thread-card:hover { border-color: color-mix(in srgb, var(--accent) 52%, var(--line)); }
+.thread-view :is(.thread-card__heading, .thread-card__meta, .thread-card__stats, .thread-author) {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: .3rem .6rem;
+  min-width: 0;
+}
+
+.thread-view .thread-card__heading { justify-content: space-between; }
+.thread-view .thread-card__heading strong { min-width: 0; overflow-wrap: anywhere; }
+.thread-view .thread-card__excerpt {
+  overflow: hidden;
+  color: var(--muted);
+  font-size: .89rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.thread-view :is(.thread-card__meta, .thread-card__stats, .thread-author time) { color: var(--muted); font-size: .78rem; }
+.thread-view .thread-card__stats { padding-top: .22rem; font-weight: 650; }
+.thread-view .thread-scope {
+  display: inline-flex;
+  padding: .12rem .52rem;
+  border-radius: 1rem;
+  background: color-mix(in srgb, var(--accent) 14%, var(--surface));
+  color: var(--text);
+  font-size: .72rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.thread-view .thread-scope:empty { display: none; }
+.thread-view .thread-original {
+  display: grid;
+  justify-items: start;
+  gap: .56rem;
+  padding: .85rem;
+  border: 1px solid var(--line);
+  border-radius: .95rem;
+  background: var(--surface);
+  background: linear-gradient(130deg, color-mix(in srgb, var(--surface) 91%, var(--accent)), var(--surface) 72%);
+  box-shadow: inset 0 1px 0 #ffffff40;
+}
+
+.thread-view .thread-body { min-width: 0; color: var(--text); overflow-wrap: anywhere; white-space: pre-wrap; }
+.thread-view .thread-stances { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .1rem; }
+.thread-view .thread-stance {
+  border-color: var(--line);
+  background: var(--surface);
+  color: var(--text);
+}
+
+.thread-view .thread-stance:hover { border-color: var(--accent); }
+.thread-view .thread-responses { margin-top: 1rem; }
+.thread-view .thread-responses h2 { margin-bottom: .5rem; font-size: 1rem; }
+.thread-view .thread-response {
+  display: grid;
+  gap: .34rem;
+  padding: .6rem .7rem .67rem;
+  border: 1px solid var(--line);
+  border-radius: .8rem;
+  background: var(--surface);
+}
+
+.thread-view .thread-author strong { font-size: .84rem; overflow-wrap: anywhere; }
+.thread-view :is(.thread-form, .thread-reply-form) { display: grid; gap: .7rem; }
+.thread-view .thread-form { max-width: 44rem; }
+.thread-view .thread-form .thread-primary { justify-self: start; }
+.thread-view .thread-form :is(input, select, textarea), .thread-view .thread-reply-form textarea { width: 100%; }
+.thread-view .thread-form textarea { resize: vertical; }
+.thread-view :is(.thread-form-hint, .thread-empty, .thread-form-status, .thread-network) { color: var(--muted); font-size: .86rem; }
+.thread-view .thread-empty { margin: .35rem 0; }
+.thread-view .thread-network {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .5rem;
+  flex: none;
+  padding: .15rem .8rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.thread-view .thread-form-status[data-error=true] { color: var(--danger, var(--text)); }
+.thread-view .thread-reply-form {
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: .35rem .55rem;
+  padding: .55rem clamp(.8rem, 2.2vw, 1.55rem) max(.6rem, env(safe-area-inset-bottom));
+  border-top: 1px solid var(--line);
+}
+
+.thread-view .thread-reply-form textarea { min-height: 2.75rem; max-height: min(6rem, 22dvh); resize: vertical; }
+.thread-view .thread-reply-form .thread-form-status { grid-column: 1 / -1; }
+
+@media (max-width: 540px) {
+  .thread-view .thread-bar__heading { flex-basis: 9rem; }
+  .thread-view .thread-filter { padding-inline: .63rem; }
+  .thread-view .thread-card { padding-inline: .65rem; }
+  .thread-view .thread-reply-form .thread-primary { padding-inline: .55rem; }
+}

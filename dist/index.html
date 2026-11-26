@@ -1,0 +1,687 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Ram Kaushik for BIC Student Ambassador. A student voice that follows up, and a smoother start for new students in Berlin.">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#ffffff">
+  <title>BIC Student Ambassador Election</title>
+  <script>
+    const systemTheme = window.matchMedia('(prefers-color-scheme: dark)');
+    const themeStorageKey = 'ram-for-bic-theme';
+    let chosenTheme;
+
+    try {
+      const storedTheme = localStorage.getItem(themeStorageKey);
+      if (storedTheme === 'light' || storedTheme === 'dark') chosenTheme = storedTheme;
+    } catch {
+      // A blocked preference store still allows switching themes for this visit.
+    }
+
+    document.documentElement.dataset.theme = chosenTheme ?? (systemTheme.matches ? 'dark' : 'light');
+  </script>
+  <style>
+    :root {
+      color-scheme: light;
+      --page: #ffffff;
+      --surface: #ffffff;
+      --section: #edf5ff;
+      --inset: #f5f9ff;
+      --ink: #122b50;
+      --muted: #445a76;
+      --line: #c5d5eb;
+      --accent: #1555b3;
+      --accent-hover: #0c408d;
+      --accent-ink: #ffffff;
+      --highlight: #c4dfff;
+      --highlight-ink: #122b50;
+      --marker: #c4dfff;
+      --hero-light: #dbeaff;
+      --panel: #112b52;
+      --panel-ink: #f7faff;
+      --panel-muted: #c6d8ef;
+      --panel-line: #617b9d;
+      font-family: "Segoe UI", system-ui, sans-serif;
+      color: var(--ink);
+      background: var(--page);
+      scroll-padding-top: 1.25rem;
+    }
+
+    :root[data-theme="dark"] {
+      color-scheme: dark;
+      --page: #050505;
+      --surface: #121010;
+      --section: #0e0b0c;
+      --inset: #191416;
+      --ink: #fff5f6;
+      --muted: #ccbfc2;
+      --line: #4b3338;
+      --accent: #e11d2e;
+      --accent-hover: #bd1525;
+      --accent-ink: #ffffff;
+      --highlight: #ff808a;
+      --highlight-ink: #28080e;
+      --marker: #751825;
+      --hero-light: #450c17;
+      --panel: #200c11;
+      --panel-ink: #fff5f6;
+      --panel-muted: #eac2c7;
+      --panel-line: #895461;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    body { margin: 0; }
+    a { color: inherit; }
+    a:focus-visible { outline: 3px solid currentColor; outline-offset: 5px; }
+    button { font: inherit; }
+    button:focus-visible { outline: 3px solid currentColor; outline-offset: 3px; }
+    h1, h2, h3, p { margin: 0; }
+    h1, h2, h3 { text-wrap: balance; }
+    .wrap { width: min(100% - 3rem, 72rem); margin-inline: auto; }
+    .campaign-only { display: none; }
+    [data-phase="campaign"] .campaign-only { display: revert; }
+    [data-phase="campaign"] .neutral-only { display: none; }
+
+    .site-header { border-bottom: 1px solid var(--line); }
+    .header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      min-height: 4.5rem;
+    }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+      font-size: 0.95rem;
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .brand-mark {
+      display: grid;
+      flex: none;
+      place-items: center;
+      width: 2.35rem;
+      aspect-ratio: 1;
+      border-radius: 0.45rem;
+      color: var(--accent-ink);
+      background: var(--accent);
+      font-size: 1.35rem;
+      font-weight: 850;
+      line-height: 1;
+    }
+    .header-link {
+      display: inline-flex;
+      align-items: center;
+      min-height: 2.75rem;
+      font-size: 0.9rem;
+      font-weight: 750;
+      white-space: nowrap;
+      text-underline-offset: 0.25em;
+    }
+    .header-actions { display: flex; align-items: center; gap: clamp(0.5rem, 2vw, 1.2rem); }
+    .theme-toggle {
+      display: grid;
+      place-items: center;
+      flex: none;
+      width: 2.75rem;
+      height: 2.75rem;
+      padding: 0;
+      border: 1px solid var(--line);
+      border-radius: 0.5rem;
+      background: var(--surface);
+      color: var(--ink);
+      font-size: 1.25rem;
+      line-height: 1;
+      cursor: pointer;
+    }
+    .theme-toggle[hidden] { display: none; }
+    .theme-toggle:hover { background: var(--section); }
+    .eyebrow {
+      font-size: 0.85rem;
+      font-weight: 750;
+      letter-spacing: 0.09em;
+      line-height: 1.4;
+      text-transform: uppercase;
+    }
+
+    .hero {
+      position: relative;
+      isolation: isolate;
+      display: grid;
+      justify-items: center;
+      align-content: center;
+      min-height: calc(100vh - var(--header-height, 4.5rem));
+      min-height: calc(100svh - var(--header-height, 4.5rem));
+      text-align: center;
+      padding-block: clamp(2.5rem, 6vh, 5rem);
+      overflow: clip;
+    }
+    .hero > .wrap { width: min(100% - 3rem, 88rem); }
+    .hero .eyebrow {
+      font-size: clamp(1rem, 1.6vw, 1.35rem);
+      font-weight: 800;
+      letter-spacing: 0.075em;
+    }
+    .hero::before {
+      position: absolute;
+      z-index: -1;
+      inset: 0;
+      content: "";
+      background: radial-gradient(ellipse 65% 84% at 50% 42%, var(--hero-light), transparent 80%);
+      transform: translateY(var(--glow-shift, 0px));
+      pointer-events: none;
+    }
+    .hero::after {
+      position: absolute;
+      z-index: -1;
+      inset: -19% -12%;
+      content: "";
+      background: repeating-radial-gradient(ellipse at 50% 53%,
+        transparent 0 39px, var(--accent) 39px 40px, transparent 40px 71px);
+      mask-image: radial-gradient(ellipse at center, transparent 20%, black 54%, transparent 73%);
+      opacity: var(--hero-lines, .08);
+      transform: translateY(var(--line-shift, 0px));
+      pointer-events: none;
+    }
+    .hero h1 {
+      max-width: 15ch;
+      margin: 1.25rem auto 1.5rem;
+      font-size: clamp(3.5rem, 9.5vw, 8.5rem);
+      font-weight: 900;
+      letter-spacing: -0.065em;
+      line-height: 0.98;
+    }
+    .hero h1 mark {
+      position: relative;
+      isolation: isolate;
+      color: inherit;
+      background: transparent;
+      white-space: nowrap;
+    }
+    .hero h1 mark::before {
+      position: absolute;
+      z-index: -1;
+      inset: 62% 0 9%;
+      border-radius: .06em;
+      background: var(--marker);
+      content: "";
+      transform-origin: left;
+    }
+    .hero .intro { margin-inline: auto; }
+    .intro, .section-intro {
+      max-width: 39rem;
+      font-size: clamp(1.05rem, 1.55vw, 1.25rem);
+      line-height: 1.6;
+      color: var(--muted);
+    }
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 0.7rem 1rem;
+      margin-top: 1.6rem;
+    }
+    .button {
+      display: inline-flex;
+      align-items: center;
+      min-height: 3.15rem;
+      padding: 0.7rem 1.15rem;
+      background: var(--accent);
+      color: var(--accent-ink);
+      border: 2px solid var(--accent);
+      border-radius: 0.45rem;
+      font-weight: 750;
+      text-decoration: none;
+    }
+    .button:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
+    .button:focus-visible { outline-color: var(--ink); }
+    .button-secondary { color: var(--ink); background: transparent; border-color: var(--ink); }
+    .button-secondary:hover { color: var(--highlight-ink); background: var(--highlight); border-color: var(--highlight); }
+
+    .community {
+      border-block: 1px solid var(--line);
+      background: var(--section);
+    }
+    .section-pad { padding-block: clamp(2.6rem, 6vw, 4.8rem); }
+    .section-title {
+      font-size: clamp(2.1rem, 5vw, 4rem);
+      line-height: 1.03;
+      letter-spacing: -0.055em;
+      font-weight: 820;
+    }
+    .community .eyebrow { margin-bottom: 0.55rem; }
+    .community .section-intro { margin-top: 0.65rem; }
+    .note { color: var(--muted); font-size: 1rem; line-height: 1.6; margin-top: 0.9rem; }
+
+    .community-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.6rem 1rem;
+      margin-top: 0.85rem;
+    }
+    .community-actions .note { margin: 0; }
+    .commonroom-stage {
+      position: relative;
+      margin-top: .9rem;
+      border-radius: .75rem;
+    }
+    .commonroom-stage::after {
+      position: absolute;
+      inset: -1px;
+      border: 2px solid var(--accent);
+      border-radius: inherit;
+      box-shadow: 0 0 24px var(--hero-light);
+      opacity: 0;
+      pointer-events: none;
+      content: "";
+    }
+    .commonroom-frame {
+      display: block;
+      width: 100%;
+      height: clamp(35rem, 82svh, 49rem);
+      border: 1px solid var(--panel-line);
+      border-radius: 0.75rem;
+      background: var(--surface);
+    }
+
+    .platform-plan {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin-top: 1.75rem;
+    }
+    .platform-plan article {
+      padding: 1.2rem;
+      border: 1px solid var(--line);
+      border-radius: 0.5rem;
+      background: var(--surface);
+    }
+    .platform-plan h3 { margin-bottom: 0.35rem; font-size: 1.12rem; }
+    .platform-plan p, .bio-copy p, .project p { color: var(--muted); line-height: 1.55; }
+
+    .bio-grid {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      align-items: start;
+      gap: clamp(1.65rem, 6vw, 5rem);
+      margin-top: 1.5rem;
+    }
+    .bio-copy { border-top: 2px solid var(--ink); padding-top: 1rem; }
+    .bio-copy h3 {
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      line-height: 1.1;
+      letter-spacing: -0.04em;
+    }
+    .bio-copy .bio-role {
+      display: inline-block;
+      padding: 0.15rem 0.4rem;
+      margin-top: 0.45rem;
+      background: var(--highlight);
+      color: var(--highlight-ink);
+      font-weight: 700;
+    }
+    .bio-copy .bio-intro { margin-top: 1rem; }
+    .projects h3 { margin-bottom: 0.25rem; font-size: 1.3rem; }
+    .project { border-bottom: 1px solid var(--line); padding-block: 0.7rem; }
+    .project:last-child { border-bottom: 0; }
+    .project strong { display: inline-block; margin-bottom: 0.15rem; }
+
+    .voting {
+      margin-block: clamp(2rem, 5vw, 4.2rem);
+      padding: clamp(1.5rem, 5vw, 3.7rem);
+      border-radius: 0.65rem;
+      background: var(--panel);
+      color: var(--panel-ink);
+    }
+    .voting .eyebrow { color: var(--highlight); margin-bottom: 0.5rem; }
+    .voting .section-title { margin-bottom: 0.75rem; }
+    .voting p { font-size: 1.05rem; line-height: 1.55; }
+    .voting-dates { display: flex; flex-wrap: wrap; gap: 1rem 3rem; margin: 1.4rem 0 0; }
+    .voting-dates div { border-top: 1px solid var(--panel-line); padding-top: 0.7rem; }
+    .voting-dates dt { font-size: 0.9rem; color: var(--panel-muted); }
+    .voting-dates dd { margin: 0.25rem 0 0; font-size: 1.15rem; font-weight: 750; }
+    .site-footer .wrap {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 0.8rem 1.5rem;
+      padding-block: 1.25rem 1.7rem;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+    .site-footer a { text-underline-offset: 0.2em; }
+
+    .reading-progress {
+      display: none;
+      position: fixed;
+      z-index: 5;
+      inset: 0 0 auto;
+      height: 3px;
+      pointer-events: none;
+    }
+    .reading-progress span {
+      display: block;
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--highlight));
+      transform: scaleX(0);
+      transform-origin: left;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      html:has(body[data-motion]) { scroll-behavior: smooth; }
+      [data-motion] .reading-progress { display: block; }
+      [data-motion] .hero h1[data-highlight] mark::before {
+        animation: marker-wipe .76s .16s cubic-bezier(.22, .68, .16, 1) both;
+      }
+      [data-motion] .commonroom-stage[data-lit]::after {
+        animation: frame-gleam 1.1s ease-out both;
+      }
+      @keyframes marker-wipe { from { transform: scaleX(.08); } to { transform: scaleX(1); } }
+      @keyframes frame-gleam { 0%, 100% { opacity: 0; } 27% { opacity: .55; } }
+    }
+
+    @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+      [data-motion] .platform-plan article {
+        transition: box-shadow .24s ease, border-color .24s ease;
+      }
+      [data-motion] .platform-plan article:hover {
+        border-color: var(--panel-line);
+        box-shadow: 0 7px 23px var(--hero-light);
+      }
+    }
+
+    @media (max-width: 720px) {
+      .wrap { width: calc(100% - 2rem); }
+      .header-row { min-height: 4rem; }
+      .brand { gap: 0.5rem; font-size: 0.875rem; }
+      .brand-mark { width: 1.95rem; font-size: 1.1rem; }
+      .hero { --header-height: 4rem; }
+      .hero > .wrap { width: calc(100% - 2rem); }
+      .hero h1 { font-size: clamp(3rem, 13vw, 5.85rem); }
+      .bio-grid, .platform-plan { grid-template-columns: 1fr; }
+      .voting-dates { display: grid; grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 360px) {
+      .hero h1 { font-size: clamp(2.5rem, 13vw, 3rem); }
+      .brand { max-width: 10.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="reading-progress" aria-hidden="true"><span></span></div>
+  <header class="site-header">
+    <div class="wrap header-row">
+      <div class="campaign-only">
+        <a class="brand" href="#top">
+          <span class="brand-mark" aria-hidden="true">R</span>
+          <span>Ram Kaushik for BIC</span>
+        </a>
+      </div>
+      <span class="brand neutral-only">BIC Student Ambassador Election</span>
+      <div class="header-actions">
+        <div class="campaign-only"><a class="header-link" href="#vote">How to vote</a></div>
+        <button class="theme-toggle" type="button" aria-label="Dark theme" aria-pressed="false" hidden>
+          <span aria-hidden="true">☾</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <div class="campaign-only">
+      <section class="hero" aria-labelledby="campaign-heading">
+        <div class="wrap">
+          <p class="eyebrow" data-reveal>Ram Kaushik for BIC Student Ambassador</p>
+          <h1 id="campaign-heading" data-reveal="1">Every student deserves <mark>a voice.</mark></h1>
+          <p class="intro" data-reveal="2">I’m running to give BIC students a place to speak up, share ideas and see what happens when I bring their concerns to BIC.</p>
+          <div class="hero-actions" data-reveal="3">
+            <a class="button" href="#community">Explore my plan</a>
+            <a class="button button-secondary" href="#vote">How to vote</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="community" aria-labelledby="community">
+        <div class="wrap section-pad">
+          <p class="eyebrow" data-reveal>Future plans</p>
+          <h2 id="community" class="section-title" tabindex="-1" data-reveal="1">A community for every BIC student</h2>
+          <p class="section-intro" data-reveal="2">I want to build an app and website where BIC students can talk across classes, ask for help and raise issues they want fixed. I’ll take shared concerns to BIC and post follow-ups so students can see what happened.</p>
+          <div class="community-actions" data-reveal="3">
+            <p class="note">Open Commonroom as a guest to try campus chats, the issue board and Help.</p>
+            <a class="button button-secondary" href="/commonroom/">Open Commonroom</a>
+          </div>
+          <div class="commonroom-stage">
+            <iframe class="commonroom-frame" src="/commonroom/?embedded=1" title="Commonroom community chat" loading="lazy"></iframe>
+          </div>
+          <p class="note">For sensitive personal concerns, contact Student Advising in Classter.</p>
+
+          <div class="platform-plan">
+            <article data-reveal>
+              <h3>My first month</h3>
+              <p>I’ll ask students across classes what needs attention, bring recurring concerns to BIC and share a first update on what’s moving.</p>
+            </article>
+            <article data-reveal="1">
+              <h3>A checklist for newcomers</h3>
+              <p>I’ll put together a mobile checklist to help you prepare for Berlin and your first week at BIC. It’ll cover finding your welcome information, planning your trip to campus and connecting with current students.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="wrap section-pad" aria-labelledby="bio-heading">
+        <h2 id="bio-heading" class="section-title" tabindex="-1" data-reveal>Meet Your Student Ambassador</h2>
+        <div class="bio-grid">
+          <div class="bio-copy" data-reveal="1">
+            <h3>Ram Kaushik</h3>
+            <p class="bio-role">Founder &amp; Lead Developer, Alter Hub</p>
+            <p class="bio-intro">I’m running to represent students at BIC. I’m from Greater Noida West, India, and I’ve worked in software development, data science and machine learning. I want to use what I’ve learned building tools and running an online community to make student life at BIC easier.</p>
+          </div>
+          <div class="projects">
+            <h3 data-reveal>Projects and experience</h3>
+            <div class="project" data-reveal="1"><strong>School administration tools</strong><p>Built software to manage student attendance and records.</p></div>
+            <div class="project" data-reveal="2"><strong>Student performance dashboards</strong><p>Analyzed student data and built interactive dashboards for school administrators.</p></div>
+            <div class="project" data-reveal="3"><strong>Student questions chatbot</strong><p>Built a prototype chatbot to answer common student questions.</p></div>
+            <div class="project" data-reveal="4"><strong>Alter Hub</strong><p>I founded and own the project, and lead its development and online community.</p></div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <section class="wrap voting" aria-labelledby="vote">
+      <p class="eyebrow" data-reveal>BIC Student Ambassador Election</p>
+      <h2 class="section-title" id="vote" tabindex="-1" data-reveal="1">Vote in Classter</h2>
+      <p id="voting-instructions" data-reveal="2">Open Classter and look for BIC’s Student Ambassador election notice for ballot instructions.</p>
+      <dl class="voting-dates">
+        <div data-reveal="2">
+          <dt>Voting</dt>
+          <dd><time datetime="2026-11-30">30 Nov</time>–<time datetime="2026-12-01">1 Dec</time></dd>
+        </div>
+        <div data-reveal="3">
+          <dt>Deadline</dt>
+          <dd><time datetime="2026-12-01T18:30:00+01:00">1 Dec at 18:30</time></dd>
+        </div>
+        <div data-reveal="4">
+          <dt>Announcement</dt>
+          <dd><time datetime="2026-12-02">2 December</time></dd>
+        </div>
+      </dl>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <span class="campaign-only">Ram Kaushik’s independent student campaign</span>
+      <a href="https://www.berlin-international-college.de/">Berlin International College website</a>
+    </div>
+  </footer>
+
+  <script>
+    const siteHeader = document.querySelector('.site-header');
+    const heroSection = document.querySelector('.hero');
+    function sizeHero() {
+      heroSection.style.setProperty('--header-height', siteHeader.getBoundingClientRect().height + 'px');
+    }
+    sizeHero();
+    if ('ResizeObserver' in window) new ResizeObserver(sizeHero).observe(siteHeader);
+    else window.addEventListener('resize', sizeHero);
+
+    const themeToggle = document.querySelector('.theme-toggle');
+    const themeIcon = themeToggle.querySelector('span');
+    const themeColor = document.querySelector('meta[name="theme-color"]');
+
+    function updateTheme() {
+      const theme = chosenTheme ?? (systemTheme.matches ? 'dark' : 'light');
+      const isDark = theme === 'dark';
+      const root = document.documentElement;
+      root.dataset.theme = theme;
+      themeToggle.setAttribute('aria-pressed', String(isDark));
+      themeToggle.title = isDark ? 'Switch to light theme' : 'Switch to dark theme';
+      themeIcon.textContent = isDark ? '☀' : '☾';
+      themeColor.content = getComputedStyle(root).getPropertyValue('--page').trim();
+    }
+
+    themeToggle.addEventListener('click', () => {
+      chosenTheme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+      try {
+        localStorage.setItem(themeStorageKey, chosenTheme);
+      } catch {
+        // Keep the selection in memory for this visit.
+      }
+      updateTheme();
+    });
+    systemTheme.addEventListener('change', updateTheme);
+    updateTheme();
+    themeToggle.hidden = false;
+
+    // Election dates follow Berlin local time (CET during this campaign).
+    const campaignStart = Date.parse('2026-11-25T00:00:00+01:00');
+    const campaignEnd = Date.parse('2026-11-28T00:00:00+01:00');
+    const votingEnd = Date.parse('2026-12-01T18:30:00+01:00');
+    const votingHeading = document.getElementById('vote');
+    const votingInstructions = document.getElementById('voting-instructions');
+    const openInstructions = votingInstructions.textContent;
+
+    function updateElectionPage() {
+      const now = Date.now();
+      const campaigning = now >= campaignStart && now < campaignEnd;
+      const votingClosed = now >= votingEnd;
+      const phase = campaigning ? 'campaign' : votingClosed ? 'closed' : 'election';
+      if (document.body.dataset.phase === phase) return;
+
+      document.body.dataset.phase = phase;
+      document.title = campaigning ? 'Ram Kaushik for BIC Student Ambassador' : 'BIC Student Ambassador Election';
+      votingHeading.textContent = votingClosed ? 'Voting closed' : 'Vote in Classter';
+      votingInstructions.textContent = votingClosed
+        ? 'Check BIC’s Student Ambassador election notice in Classter for the announcement.'
+        : openInstructions;
+    }
+
+    updateElectionPage();
+    window.setInterval(updateElectionPage, 1000);
+    document.addEventListener('visibilitychange', updateElectionPage);
+
+    (() => {
+      if (!('IntersectionObserver' in window) || !Element.prototype.animate) return;
+
+      const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+      const hero = document.querySelector('.hero');
+      const heading = document.getElementById('campaign-heading');
+      const appFrame = document.querySelector('.commonroom-stage');
+      const progress = document.querySelector('.reading-progress span');
+      const seen = new WeakSet();
+      const running = new Map();
+      let frame = null;
+      let enabled = false;
+
+      const reveal = new IntersectionObserver((entries) => {
+        if (!enabled) return;
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          const element = entry.target;
+          reveal.unobserve(element);
+          seen.add(element);
+          if (element === appFrame) {
+            appFrame.dataset.lit = '';
+            continue;
+          }
+          if (element.contains(document.activeElement)) continue;
+          if (element === heading) heading.dataset.highlight = '';
+
+          const animation = element.animate([
+            { opacity: .4, transform: 'translateY(18px)' },
+            { opacity: 1, transform: 'translateY(0)' },
+          ], {
+            duration: 560,
+            delay: Number(element.dataset.reveal) * 65,
+            easing: 'cubic-bezier(.2, .7, .2, 1)',
+            fill: 'backwards',
+          });
+          running.set(element, animation);
+          const forget = () => running.delete(element);
+          animation.addEventListener('finish', forget, { once: true });
+          animation.addEventListener('cancel', forget, { once: true });
+        }
+      }, { rootMargin: '0px 0px -6% 0px', threshold: .05 });
+
+      function paintScroll() {
+        frame = null;
+        if (!enabled) return;
+        const top = Math.max(0, window.scrollY);
+        const distance = document.documentElement.scrollHeight - window.innerHeight;
+        const pastHero = Math.min(1, top / Math.max(1, hero.offsetTop + hero.offsetHeight));
+        progress.style.transform = 'scaleX(' + (distance > 0 ? Math.min(1, top / distance) : 0) + ')';
+        hero.style.setProperty('--glow-shift', pastHero * 56 + 'px');
+        hero.style.setProperty('--line-shift', pastHero * -36 + 'px');
+        hero.style.setProperty('--hero-lines', Math.max(0, .09 * (1 - pastHero)) + '');
+      }
+
+      function queuePaint() {
+        if (enabled && frame === null) frame = requestAnimationFrame(paintScroll);
+      }
+
+      function updateMotion() {
+        const shouldEnable = !reducedMotion.matches && document.body.dataset.phase === 'campaign';
+        if (shouldEnable === enabled) return;
+        enabled = shouldEnable;
+        document.body.toggleAttribute('data-motion', enabled);
+        if (enabled) {
+          for (const element of document.querySelectorAll('[data-reveal], .commonroom-stage')) {
+            if (!seen.has(element)) reveal.observe(element);
+          }
+          queuePaint();
+        } else {
+          reveal.disconnect();
+          for (const animation of running.values()) animation.cancel();
+          running.clear();
+          if (frame !== null) cancelAnimationFrame(frame);
+          frame = null;
+          heading.removeAttribute('data-highlight');
+          appFrame.removeAttribute('data-lit');
+          hero.style.removeProperty('--glow-shift');
+          hero.style.removeProperty('--line-shift');
+          hero.style.removeProperty('--hero-lines');
+        }
+      }
+
+      document.addEventListener('focusin', (event) => {
+        const element = event.target.closest('[data-reveal]');
+        running.get(element)?.cancel();
+      });
+      window.addEventListener('scroll', queuePaint, { passive: true });
+      window.addEventListener('resize', queuePaint);
+      if ('ResizeObserver' in window) new ResizeObserver(queuePaint).observe(document.body);
+      reducedMotion.addEventListener('change', updateMotion);
+      new MutationObserver(updateMotion).observe(document.body, { attributeFilter: ['data-phase'] });
+      updateMotion();
+    })();
+  </script>
+</body>
+</html>

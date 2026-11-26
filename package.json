@@ -1,0 +1,12 @@
+{
+  "name": "commonroom-campaign",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=24" },
+  "scripts": {
+    "dev": "node server/local.mjs",
+    "start": "node server/local.mjs",
+    "build": "node server/build.mjs",
+    "test": "node --test server/api.test.mjs"
+  }
+}
