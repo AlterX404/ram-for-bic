@@ -1,7 +1,7 @@
 import { handleApi } from './api.mjs';
 
 export const files = {
-  '/': ['dist/index.html', 'text/html; charset=utf-8'],
+  '/': ['index.html', 'text/html; charset=utf-8'],
   '/commonroom/': ['dist/commonroom/index.html', 'text/html; charset=utf-8'],
   '/commonroom/app.js': ['dist/commonroom/app.js', 'text/javascript; charset=utf-8'],
   '/commonroom/client.js': ['dist/commonroom/client.js', 'text/javascript; charset=utf-8'],
@@ -14,7 +14,7 @@ export const files = {
 export async function route(request, binding, load) {
   const url = new URL(request.url);
   if (url.pathname.startsWith('/api/')) return handleApi(request, binding);
-  if (url.pathname === '/commonroom') return Response.redirect(new URL('/commonroom/' + url.search, url), 308);
+  if (url.pathname === '/commonroom' || url.pathname === '/commonroom.html') return Response.redirect(new URL('/commonroom/' + url.search, url), 308);
   if (!['GET', 'HEAD'].includes(request.method)) return new Response('Method not allowed', { status: 405 });
   const asset = Object.hasOwn(files, url.pathname) && files[url.pathname];
   if (!asset) return new Response('Page not found', { status: 404 });

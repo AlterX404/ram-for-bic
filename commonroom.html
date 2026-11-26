@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Commonroom preview</title>
+  <link rel="stylesheet" href="./commonroom-preview.css">
+  <script defer src="./commonroom-preview.js"></script>
+</head>
+<body>
+  <main>
+    <header class="masthead">
+      <div>
+        <h1>Commonroom</h1>
+        <p>Sample conversations. Your posts stay in this browser.</p>
+      </div>
+      <a href="./index.html#community">Campaign page</a>
+    </header>
+    <nav aria-label="Community spaces">
+      <button type="button" data-space="campus" aria-current="true">Campus</button>
+      <button type="button" data-space="class-a">Class A</button>
+      <button type="button" data-space="class-b">Class B</button>
+      <button type="button" data-space="issues">Issues</button>
+      <button type="button" data-space="help">Help</button>
+    </nav>
+    <section aria-labelledby="space-heading">
+      <div class="section-head">
+        <div>
+          <h2 id="space-heading" tabindex="-1">Campus chat</h2>
+          <p id="space-summary">Talk with students across classes.</p>
+        </div>
+        <button type="button" id="back" hidden>Back to topics</button>
+      </div>
+      <ol id="entries" aria-label="Conversation"></ol>
+      <form id="composer">
+        <label for="title" id="title-label" hidden>Topic title</label>
+        <input id="title" name="title" maxlength="100" hidden>
+        <label for="message" id="message-label">Message</label>
+        <textarea id="message" name="message" rows="2" maxlength="1500" required></textarea>
+        <button type="submit" id="send">Send message</button>
+      </form>
+      <p role="status" id="status"></p>
+    </section>
+    <noscript>Enable JavaScript to switch spaces and try posting in the preview.</noscript>
+  </main>
+</body>
+</html>

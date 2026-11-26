@@ -2,6 +2,12 @@
 
 Commonroom is a guest-friendly student space with shared campus and class chats, an issue board and a separate Help board for student questions. The BIC campaign embeds it in Future plans, and it also runs as a standalone web app at `/commonroom/`.
 
+## Open the static site
+
+Open the top-level index.html in your browser. The campaign page and Commonroom preview use relative links, so they also work when GitHub Pages serves the root of main under a repository URL.
+
+The static Commonroom preview includes sample campus and class chats, issues and Help. It saves your preview posts in your browser. For shared posts across browsers, use the server-backed app below.
+
 ## Run locally
 
 Use Node.js 24 or later. The project uses browser JavaScript modules, Node’s HTTP server and built-in SQLite. It has zero package dependencies.

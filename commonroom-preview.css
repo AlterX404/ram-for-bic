@@ -1,0 +1,32 @@
+:root { color-scheme: light; color: #141413; background: #faf9f6; font: 1rem/1.6 system-ui, sans-serif; }
+*, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { margin: 0; }
+main { max-width: 50rem; margin: auto; padding: 1.25rem clamp(1.25rem, 5vw, 3rem); }
+h1, h2, p, ol { margin: 0; }
+h1, h2 { font-family: Georgia, serif; font-weight: 400; line-height: 1.15; overflow-wrap: anywhere; }
+h1 { font-size: 2rem; }
+h2 { font-size: 1.55rem; }
+p { max-width: 65ch; }
+.masthead, .section-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .65rem 1rem; }
+.masthead p, .section-head p, .entry-meta, #status { color: #5c5b57; font-size: .875rem; margin-top: .25rem; }
+a { color: inherit; text-underline-offset: .2em; }
+nav { display: flex; flex-wrap: wrap; gap: .25rem; margin: .85rem 0; padding-block: .4rem; border-block: 1px solid #14141326; }
+button, input, textarea { font: inherit; color: inherit; border: 1px solid #14141350; border-radius: 6px; background: #faf9f6; }
+button { min-height: 44px; padding: .4rem .7rem; cursor: pointer; }
+nav button { padding-inline: .45rem; border-color: transparent; font-size: .875rem; }
+button:hover, [aria-current="true"], [aria-pressed="true"] { background: #f0eee9; border-color: #14141350; }
+[aria-current="true"], [aria-pressed="true"] { font-weight: 700; }
+:focus-visible { outline: 2px solid #141413; outline-offset: 2px; }
+ol { list-style: none; padding: 0; }
+#entries { margin-block: .55rem .9rem; }
+#entries li { padding: .7rem 0; border-bottom: 1px solid #14141326; min-width: 0; }
+#entries li p { white-space: pre-wrap; overflow-wrap: anywhere; }
+.topic { width: 100%; text-align: left; border-color: transparent; font-weight: 650; overflow-wrap: anywhere; }
+.stances { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .6rem; }
+form { display: grid; gap: .3rem; }
+input, textarea { width: 100%; min-height: 44px; padding: .45rem .6rem; }
+textarea { resize: vertical; }
+label { font-size: .875rem; font-weight: 600; }
+#send { justify-self: start; margin-top: .35rem; background: #1e3a2f; color: #faf9f6; }
+#send:hover { opacity: .86; }
