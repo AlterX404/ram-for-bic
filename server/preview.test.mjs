@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { runInNewContext } from 'node:vm';
+import { newId } from '../dist/commonroom/ui.js';
 
 const adapter = readFileSync(new URL('../dist/commonroom/preview-store.js', import.meta.url), 'utf8');
 
@@ -41,4 +42,9 @@ test('restored preview migrates browser posts and stores scoped replies and mess
   assert.equal((await request('/servers/campus/search?q=updated')).matches[0].id, 'test-message');
   await request('/messages/test-message', 'DELETE');
   assert.equal((await request('/servers/campus/search?q=updated')).matches.length, 0);
+});
+
+test('the preview can generate valid post IDs on an HTTP custom domain', () => {
+  const provider = { getRandomValues: (buffer) => buffer.fill(255) };
+  assert.equal(newId(provider), 'ffffffff-ffff-4fff-bfff-ffffffffffff');
 });

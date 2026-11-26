@@ -1,5 +1,5 @@
 import { request, loadSaved, saveLocal } from './client.js';
-import { $, $$, action, avatar, card, el, field, initials, reactionEmoji } from './ui.js';
+import { $, $$, action, avatar, card, el, field, initials, reactionEmoji, newId } from './ui.js';
 import { createThreads } from './threads.js';
 
 const view = $('#workspace');
@@ -432,7 +432,7 @@ composer.addEventListener('submit', (event) => {
   }
   const quoted = state.replying;
   const item = {
-    channel: state.channel.id, id: crypto.randomUUID(), text: input.value.trim(), createdAt: Date.now(),
+    channel: state.channel.id, id: newId(), text: input.value.trim(), createdAt: Date.now(),
     replyToId: quoted?.id ?? null, replyText: quoted?.text.slice(0, 140), replyAuthor: quoted?.author,
   };
   state.saved.queued.push(item);

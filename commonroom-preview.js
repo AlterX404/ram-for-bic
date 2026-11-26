@@ -259,6 +259,17 @@ const reactionEmoji = ['👍', '❤️', '🎉', '👀', '💡'];
 const time = new Intl.DateTimeFormat(undefined, { hour: 'numeric', minute: '2-digit' });
 const day = new Intl.DateTimeFormat(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
 
+
+function newId(provider = globalThis.crypto) {
+  if (typeof provider.randomUUID === 'function') return provider.randomUUID();
+  // getRandomValues is also available when a static preview is served over HTTP.
+  const bytes = provider.getRandomValues(new Uint8Array(16));
+  bytes[6] = (bytes[6] & 0x0f) | 0x40;
+  bytes[8] = (bytes[8] & 0x3f) | 0x80;
+  const hex = Array.from(bytes, (byte) => byte.toString(16).padStart(2, '0')).join('');
+  return [hex.slice(0, 8), hex.slice(8, 12), hex.slice(12, 16), hex.slice(16, 20), hex.slice(20)].join('-');
+}
+
 function el(tag, className, content) {
   const item = document.createElement(tag);
   if (className) item.className = className;
@@ -583,7 +594,7 @@ function createThreads({ root, guestId, kind = 'issue', notice = () => {}, onAut
       }
       if (submit.disabled || mutations > 0) return;
       const route = revision;
-      const id = draft.pending ?? crypto.randomUUID();
+      const id = draft.pending ?? newId();
       draft.pending = id;
       Object.assign(draft, payload);
       saveDrafts();
@@ -684,7 +695,7 @@ function createThreads({ root, guestId, kind = 'issue', notice = () => {}, onAut
       const text = form.elements.text.value.trim();
       if (!text || submit.disabled || mutations > 0 || route !== revision) return;
       draft.text = text;
-      draft.pending ??= crypto.randomUUID();
+      draft.pending ??= newId();
       drafts.replies[threadId] = draft;
       saveDrafts();
       submit.disabled = true;
@@ -1254,7 +1265,7 @@ composer.addEventListener('submit', (event) => {
   }
   const quoted = state.replying;
   const item = {
-    channel: state.channel.id, id: crypto.randomUUID(), text: input.value.trim(), createdAt: Date.now(),
+    channel: state.channel.id, id: newId(), text: input.value.trim(), createdAt: Date.now(),
     replyToId: quoted?.id ?? null, replyText: quoted?.text.slice(0, 140), replyAuthor: quoted?.author,
   };
   state.saved.queued.push(item);

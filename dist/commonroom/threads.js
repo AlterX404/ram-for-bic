@@ -1,5 +1,5 @@
 import { request } from './client.js';
-import { avatar, el, field, readableTime } from './ui.js';
+import { avatar, el, field, readableTime, newId } from './ui.js';
 
 const scopes = [
   ['campus', 'Campus'],
@@ -232,7 +232,7 @@ export function createThreads({ root, guestId, kind = 'issue', notice = () => {}
       }
       if (submit.disabled || mutations > 0) return;
       const route = revision;
-      const id = draft.pending ?? crypto.randomUUID();
+      const id = draft.pending ?? newId();
       draft.pending = id;
       Object.assign(draft, payload);
       saveDrafts();
@@ -333,7 +333,7 @@ export function createThreads({ root, guestId, kind = 'issue', notice = () => {}
       const text = form.elements.text.value.trim();
       if (!text || submit.disabled || mutations > 0 || route !== revision) return;
       draft.text = text;
-      draft.pending ??= crypto.randomUUID();
+      draft.pending ??= newId();
       drafts.replies[threadId] = draft;
       saveDrafts();
       submit.disabled = true;
