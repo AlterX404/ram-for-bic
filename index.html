@@ -6,7 +6,7 @@
   <meta name="description" content="Ram Kaushik for BIC Student Ambassador. A student voice that follows up, and a smoother start for new students in Berlin.">
   <meta name="robots" content="noindex">
   <meta name="theme-color" content="#ffffff">
-  <title>BIC Student Ambassador Election</title>
+  <title>Ram Kaushik for BIC Student Ambassador</title>
   <script>
     const systemTheme = window.matchMedia('(prefers-color-scheme: dark)');
     const themeStorageKey = 'ram-for-bic-theme';
@@ -79,9 +79,6 @@
     h1, h2, h3, p { margin: 0; }
     h1, h2, h3 { text-wrap: balance; }
     .wrap { width: min(100% - 3rem, 72rem); margin-inline: auto; }
-    .campaign-only { display: none; }
-    [data-phase="campaign"] .campaign-only { display: revert; }
-    [data-phase="campaign"] .neutral-only { display: none; }
 
     .site-header { border-bottom: 1px solid var(--line); }
     .header-row {
@@ -419,15 +416,12 @@
   <div class="reading-progress" aria-hidden="true"><span></span></div>
   <header class="site-header">
     <div class="wrap header-row">
-      <div class="campaign-only">
-        <a class="brand" href="#top">
-          <span class="brand-mark" aria-hidden="true">R</span>
-          <span>Ram Kaushik for BIC</span>
-        </a>
-      </div>
-      <span class="brand neutral-only">BIC Student Ambassador Election</span>
+      <a class="brand" href="#top">
+        <span class="brand-mark" aria-hidden="true">R</span>
+        <span>Ram Kaushik for BIC</span>
+      </a>
       <div class="header-actions">
-        <div class="campaign-only"><a class="header-link" href="#vote">How to vote</a></div>
+        <a class="header-link" href="#vote">How to vote</a>
         <button class="theme-toggle" type="button" aria-label="Dark theme" aria-pressed="false" hidden>
           <span aria-hidden="true">☾</span>
         </button>
@@ -436,7 +430,7 @@
   </header>
 
   <main id="top">
-    <div class="campaign-only">
+    <div>
       <section class="hero" aria-labelledby="campaign-heading">
         <div class="wrap">
           <p class="eyebrow" data-reveal>Ram Kaushik for BIC Student Ambassador</p>
@@ -518,7 +512,7 @@
 
   <footer class="site-footer">
     <div class="wrap">
-      <span class="campaign-only">Ram Kaushik’s independent student campaign</span>
+      <span>Ram Kaushik’s independent student campaign</span>
       <a href="https://www.berlin-international-college.de/">Berlin International College website</a>
     </div>
   </footer>
@@ -562,23 +556,16 @@
     themeToggle.hidden = false;
 
     // Election dates follow Berlin local time (CET during this campaign).
-    const campaignStart = Date.parse('2026-11-25T00:00:00+01:00');
-    const campaignEnd = Date.parse('2026-11-28T00:00:00+01:00');
     const votingEnd = Date.parse('2026-12-01T18:30:00+01:00');
     const votingHeading = document.getElementById('vote');
     const votingInstructions = document.getElementById('voting-instructions');
     const openInstructions = votingInstructions.textContent;
 
     function updateElectionPage() {
-      const now = Date.now();
-      const campaigning = now >= campaignStart && now < campaignEnd;
-      const votingClosed = now >= votingEnd;
-      const phase = campaigning ? 'campaign' : votingClosed ? 'closed' : 'election';
-      if (document.body.dataset.phase === phase) return;
-
-      document.body.dataset.phase = phase;
-      document.title = campaigning ? 'Ram Kaushik for BIC Student Ambassador' : 'BIC Student Ambassador Election';
-      votingHeading.textContent = votingClosed ? 'Voting closed' : 'Vote in Classter';
+      const votingClosed = Date.now() >= votingEnd;
+      const heading = votingClosed ? 'Voting closed' : 'Vote in Classter';
+      if (votingHeading.textContent === heading) return;
+      votingHeading.textContent = heading;
       votingInstructions.textContent = votingClosed
         ? 'Check BIC’s Student Ambassador election notice in Classter for the announcement.'
         : openInstructions;
@@ -648,7 +635,7 @@
       }
 
       function updateMotion() {
-        const shouldEnable = !reducedMotion.matches && document.body.dataset.phase === 'campaign';
+        const shouldEnable = !reducedMotion.matches;
         if (shouldEnable === enabled) return;
         enabled = shouldEnable;
         document.body.toggleAttribute('data-motion', enabled);
@@ -679,9 +666,9 @@
       window.addEventListener('resize', queuePaint);
       if ('ResizeObserver' in window) new ResizeObserver(queuePaint).observe(document.body);
       reducedMotion.addEventListener('change', updateMotion);
-      new MutationObserver(updateMotion).observe(document.body, { attributeFilter: ['data-phase'] });
       updateMotion();
     })();
   </script>
 </body>
 </html>
+
